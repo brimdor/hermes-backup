@@ -31,13 +31,14 @@ log "Hermes Backup Starting"
 log "=========================================="
 
 # Check for uncommitted changes in backup repo
-cd "$BACKUP_DIR" 2>/dev/null && {
+if [ -d "$BACKUP_DIR/.git" ]; then
+    cd "$BACKUP_DIR"
     if ! git diff --quiet 2>/dev/null || ! git diff --cached --quiet 2>/dev/null; then
         log "WARNING: Uncommitted changes exist in backup repo"
         log "Stashing before pull..."
         git stash push -m "pre-backup stash $(date)" 2>/dev/null || true
     fi
-}
+fi
 
 # Clean up any previous temp directory
 rm -rf "$BACKUP_DIR"
@@ -88,10 +89,8 @@ if [ -d "$BACKUP_DIR/.git" ]; then
     git pull origin main --quiet 2>&1 | tee -a "$LOG_FILE" || {
         log "Pull failed, re-cloning..."
         rm -rf "$BACKUP_DIR"
-        git clone "git@github.com:${REMOTE_REPO}.git" "$BACKUP_DIR" --bare --quiet
+        git clone "git@github.com:${REMOTE_REPO}.git" "$BACKUP_DIR" --quiet
         cd "$BACKUP_DIR"
-        git config core.bareRepository false
-        git checkout main 2>/dev/null || git checkout -b main
     }
 else
     log "Cloning backup repo..."
