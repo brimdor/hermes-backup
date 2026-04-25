@@ -1,0 +1,8 @@
+backup=hermes_backup_20260425_110044.tar.gz
+created_at=2026-04-25T11:01:33-05:00
+archive_size_bytes=739692617
+archive_size_human=706M
+sha256=d34e63e27a080f76200c82534244a88a3283e7ef3f7a886fc2eaf89b9b63b489
+chunk_size=95M
+chunk_count=8
+restore_command=cat hermes_backup_20260425_110044.tar.gz.part* > hermes_backup_20260425_110044.tar.gz && sha256sum -c hermes_backup_20260425_110044.tar.gz.sha256
