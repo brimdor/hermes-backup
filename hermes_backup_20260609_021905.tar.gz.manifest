@@ -1,0 +1,17 @@
+backup=hermes_backup_20260609_021905.tar.gz
+created_at=2026-06-09T02:21:31-05:00
+archive_size_bytes=1945141658
+archive_size_human=1.9G
+sha256=810c45a6d12aae13dec449a336fca4c719cbfb6a6ce9bb9b55ed126a936412e4
+chunk_size=95M
+chunk_count=20
+restore_command=cat hermes_backup_20260609_021905.tar.gz.part* > hermes_backup_20260609_021905.tar.gz && sha256sum -c hermes_backup_20260609_021905.tar.gz.sha256
+
+# Restore procedure:
+# 1. Install Hermes (git clone hermes-agent repo, run setup)
+# 2. Extract archive: cat *.part* > hermes_backup_YYYYMMDD_HHMMSS.tar.gz
+# 3. Verify: sha256sum -c hermes_backup_YYYYMMDD_HHMMSS.tar.gz.sha256
+# 4. Unpack: tar -xzf hermes_backup_YYYYMMDD_HHMMSS.tar.gz -C /home/echo/
+# 5. Chown: chown -R hermes:hermes /home/echo/.hermes /home/echo/.mempalace
+# 6. Install mempalace-venv: python3 -m venv && pip install mempalace
+# 7. Start gateways — state.db rebuilds automatically
